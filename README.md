@@ -1,1 +1,2 @@
-# regex_is_not_allowed_here
+Here is a price string converter. Wihout regex.
+Enjoy!
