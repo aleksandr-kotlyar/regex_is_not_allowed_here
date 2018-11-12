@@ -20,19 +20,28 @@ public class StringCutterTest {
     private static final String dotNewLine = "55.99 \nRUB";
     private static final String minusSpaceDotSpace = "- 55.99 RUB";
     private static final String minusSpaceDotCommaSpace = "- 55.99, RUB";
-    private List<String> prices = Arrays.asList(plusDotSpace,
-            minusDotSpace,
+    private List<String> positivePrices = Arrays.asList(plusDotSpace,
             commaSpace,
             dotTwoSpaces,
             dotTabSpace,
-            dotNewLine,
+            dotNewLine);
+    private List<String> negativePrices = Arrays.asList(minusDotSpace,
             minusSpaceDotSpace,
             minusSpaceDotCommaSpace);
 
     @Test
-    public void testSubstring() {
+    public void testNegativePrices() {
+        BigDecimal fixPrice = new BigDecimal(-55.99).setScale(2, BigDecimal.ROUND_DOWN);
+        for (String price : negativePrices) {
+            BigDecimal parsedPrice = convertToDecimalPriceWithoutShit(price);
+            assertEquals(parsedPrice, fixPrice);
+        }
+    }
+
+    @Test
+    public void testPositivePrices() {
         BigDecimal fixPrice = new BigDecimal(55.99).setScale(2, BigDecimal.ROUND_DOWN);
-        for (String price : prices) {
+        for (String price : positivePrices) {
             BigDecimal parsedPrice = convertToDecimalPriceWithoutShit(price);
             assertEquals(parsedPrice, fixPrice);
         }
@@ -40,8 +49,6 @@ public class StringCutterTest {
 
     private BigDecimal convertToDecimalPriceWithoutShit(String price) {
         info("unParsedPrice= '" + price + "'");
-        price = StringUtils.remove(price, "+");
-        price = StringUtils.remove(price, "-");
         price = StringUtils.deleteWhitespace(price);
         price = StringUtils.remove(price, "RUB");
         price = StringUtils.removeEnd(price, ",");
