@@ -31,30 +31,31 @@ public class StringCutterTest {
 
     @Test
     public void testNegativePrices() {
-        BigDecimal fixPrice = new BigDecimal(-55.99).setScale(2, BigDecimal.ROUND_DOWN);
+        Double fixPrice = -55.99;
         for (String price : negativePrices) {
-            BigDecimal parsedPrice = convertToDecimalPriceWithoutShit(price);
+            Double parsedPrice = convertToDecimalPriceWithoutShit(price);
             assertEquals(parsedPrice, fixPrice);
         }
     }
 
     @Test
     public void testPositivePrices() {
-        BigDecimal fixPrice = new BigDecimal(55.99).setScale(2, BigDecimal.ROUND_DOWN);
+        Double fixPrice = 55.99;
         for (String price : positivePrices) {
-            BigDecimal parsedPrice = convertToDecimalPriceWithoutShit(price);
+            Double parsedPrice = convertToDecimalPriceWithoutShit(price);
             assertEquals(parsedPrice, fixPrice);
         }
     }
 
-    private BigDecimal convertToDecimalPriceWithoutShit(String price) {
-        info("unParsedPrice= '" + price + "'");
-        price = StringUtils.deleteWhitespace(price);
-        price = StringUtils.remove(price, "RUB");
-        price = StringUtils.removeEnd(price, ",");
-        price = StringUtils.replaceOnce(price, ",", ".");
-        info("parsedPrice = '" + price + "'");
-        return new BigDecimal(price).setScale(2, BigDecimal.ROUND_DOWN);
+    private Double convertToDecimalPriceWithoutShit(String price) {
+        String parsedPrice;
+        parsedPrice = StringUtils.deleteWhitespace(price);
+        parsedPrice = StringUtils.remove(parsedPrice, "RUB");
+        parsedPrice = StringUtils.removeEnd(parsedPrice, ",");
+        parsedPrice = StringUtils.replaceOnce(parsedPrice, ",", ".");
+        info("unParsedPrice = '" + price + "'\n" +
+                "  parsedPrice = '" + parsedPrice + "'");
+        return new Double(parsedPrice);
     }
 
     private void info(String logMessage) {
