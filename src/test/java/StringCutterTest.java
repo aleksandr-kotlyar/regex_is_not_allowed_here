@@ -1,7 +1,6 @@
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
@@ -31,23 +30,23 @@ public class StringCutterTest {
 
     @Test
     public void testNegativePrices() {
-        Double fixPrice = -55.99;
+        Double expectedPrice = -55.99;
         for (String price : negativePrices) {
-            Double parsedPrice = convertToDecimalPriceWithoutShit(price);
-            assertEquals(parsedPrice, fixPrice);
+            Double parsedPrice = parseAndConvertToDouble(price);
+            assertEquals(expectedPrice, parsedPrice);
         }
     }
 
     @Test
     public void testPositivePrices() {
-        Double fixPrice = 55.99;
+        Double expectedPrice = 55.99;
         for (String price : positivePrices) {
-            Double parsedPrice = convertToDecimalPriceWithoutShit(price);
-            assertEquals(parsedPrice, fixPrice);
+            Double parsedPrice = parseAndConvertToDouble(price);
+            assertEquals(expectedPrice, parsedPrice);
         }
     }
 
-    private Double convertToDecimalPriceWithoutShit(String price) {
+    private Double parseAndConvertToDouble(String price) {
         String parsedPrice;
         parsedPrice = StringUtils.deleteWhitespace(price);
         parsedPrice = StringUtils.remove(parsedPrice, "RUB");
@@ -60,7 +59,7 @@ public class StringCutterTest {
 
     private void info(String logMessage) {
         String s = "\n--------------------------------\n";
-        getLoggerInstance().info( s + logMessage + s);
+        getLoggerInstance().info(s + logMessage + s);
     }
 
     private static final Logger LOGGER = Logger.getLogger(StringCutterTest.class.getName());
